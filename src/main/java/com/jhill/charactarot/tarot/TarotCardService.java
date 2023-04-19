@@ -1,11 +1,13 @@
 package com.jhill.charactarot.tarot;
 
+import java.util.List;
+
 public interface TarotCardService {
 
-    TarotCardResponse getAllCards();
+    List<TarotCard> getAllCards();
 
-    TarotCardResponse getCardByShortName(String shortName);
+    TarotCard getCardByShortName(String shortName);
 
-    TarotCardResponse drawRandomCards();
+    List<TarotCard> drawRandomCards();
 
 }

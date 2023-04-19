@@ -4,39 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 
+@Service
 @RequiredArgsConstructor
 public class TarotCardServiceImpl implements TarotCardService {
 
     private final List<TarotCard> tarotCards;
 
     @Override
-    public TarotCardResponse drawRandomCards() {
-        List<TarotCard> cards = getRandomCards();
-        return TarotCardResponseModel.builder()
-                .numHits(cards.size())
-                .cards(cards)
-                .build();
+    public List<TarotCard> drawRandomCards() {
+        return getRandomCards();
     }
 
     @Override
-    public TarotCardResponse getAllCards() {
-        return TarotCardResponseModel.builder()
-                .numHits(tarotCards.size())
-                .cards(tarotCards)
-                .build();
+    public List<TarotCard> getAllCards() {
+        return tarotCards;
     }
 
     @Override
-    public TarotCardResponse getCardByShortName(String shortName) {
-        List<TarotCard> cards = tarotCards.stream()
-                .filter(c -> c.getShortName().contains(shortName))
-                .toList();
-        return TarotCardResponseModel.builder()
-                .numHits(cards.size())
-                .cards(cards)
-                .build();
+    public TarotCard getCardByShortName(String shortName) {
+        return tarotCards.stream()
+                .filter(c -> c.getShortName().equals(shortName))
+                .toList().get(0);
     }
 
     private List<TarotCard> getRandomCards() {

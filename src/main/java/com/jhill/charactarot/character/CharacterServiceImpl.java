@@ -17,17 +17,16 @@ import lombok.RequiredArgsConstructor;
 public class CharacterServiceImpl implements CharacterService {
 
         private final TarotCardService tarotCardService;
+        private final OpenAiService openAiService;
 
         @Override
         public String buildCharacter(List<String> cardShortNames) {
-                OpenAiService service = new OpenAiService("");
 
                 StringBuilder message = new StringBuilder(
                                 "Please build a basic Dungeons and Dragons character, with stats included, based off of the following Tarot Cards: ");
 
                 cardShortNames.forEach(
-                                s -> message.append(tarotCardService.getCardByShortName(s).getCards().get(0).getName())
-                                                .append(", "));
+                                s -> message.append(tarotCardService.getCardByShortName(s).getName()).append(", "));
 
                 ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
                                 .messages(List.of(
@@ -38,7 +37,7 @@ public class CharacterServiceImpl implements CharacterService {
                                 .logitBias(new HashMap<>())
                                 .build();
                 StringBuilder sb = new StringBuilder();
-                service.streamChatCompletion(chatCompletionRequest)
+                openAiService.streamChatCompletion(chatCompletionRequest)
                                 .blockingForEach(chunk -> chunk.getChoices()
                                                 .forEach(c -> sb.append(c.getMessage().getContent())));
                 return sb.toString().replace("null", "");

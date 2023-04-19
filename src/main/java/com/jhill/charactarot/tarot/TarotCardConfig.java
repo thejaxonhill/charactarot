@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 public class TarotCardConfig {
 
     @Bean
-    TarotCardService tarotCards() throws IOException {
+    List<TarotCard> tarotCards() throws IOException {
         File cardsDataJson = new ClassPathResource("cards_data.json").getFile();
         SimpleModule sm = new SimpleModule().addAbstractTypeMapping(TarotCard.class, TarotCardModel.class);
         ObjectMapper om = new ObjectMapper().registerModule(sm);
@@ -28,7 +28,7 @@ public class TarotCardConfig {
                 String.format("http://localhost:8080/api/v1/images/%s.jpg",
                         c.getName().replace(" ", "").toLowerCase())));
 
-        return new TarotCardServiceImpl(tarotCards);
+        return tarotCards;
     }
 
 }
