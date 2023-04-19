@@ -1,4 +1,4 @@
-package com.jhill.charactarot.config;
+package com.jhill.charactarot.tarot;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,13 +11,9 @@ import org.springframework.core.io.ClassPathResource;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.jhill.charactarot.model.TarotCard;
-import com.jhill.charactarot.model.TarotCardModel;
-import com.jhill.charactarot.service.TarotCardService;
-import com.jhill.charactarot.service.TarotCardServiceImpl;
 
 @Configuration
-public class GeneralConfig {
+public class TarotCardConfig {
 
     @Bean
     TarotCardService tarotCards() throws IOException {

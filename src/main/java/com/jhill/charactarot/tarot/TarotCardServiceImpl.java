@@ -1,12 +1,8 @@
-package com.jhill.charactarot.service;
+package com.jhill.charactarot.tarot;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import com.jhill.charactarot.model.TarotCard;
-import com.jhill.charactarot.model.TarotCardResponse;
-import com.jhill.charactarot.model.TarotCardResponseModel;
 
 import lombok.RequiredArgsConstructor;
 

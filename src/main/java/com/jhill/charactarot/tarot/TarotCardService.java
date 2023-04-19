@@ -1,6 +1,4 @@
-package com.jhill.charactarot.service;
-
-import com.jhill.charactarot.model.TarotCardResponse;
+package com.jhill.charactarot.tarot;
 
 public interface TarotCardService {
 

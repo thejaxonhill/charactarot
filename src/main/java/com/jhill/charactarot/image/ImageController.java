@@ -1,4 +1,4 @@
-package com.jhill.charactarot.controller;
+package com.jhill.charactarot.image;
 
 import java.io.IOException;
 

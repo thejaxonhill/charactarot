@@ -1,10 +1,11 @@
-package com.jhill.charactarot.service;
+package com.jhill.charactarot.character;
 
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.jhill.charactarot.tarot.TarotCardService;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.service.OpenAiService;

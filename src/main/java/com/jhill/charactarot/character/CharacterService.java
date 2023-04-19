@@ -1,4 +1,4 @@
-package com.jhill.charactarot.service;
+package com.jhill.charactarot.character;
 
 import java.util.List;
 

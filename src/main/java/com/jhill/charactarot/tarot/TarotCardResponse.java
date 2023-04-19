@@ -1,4 +1,4 @@
-package com.jhill.charactarot.model;
+package com.jhill.charactarot.tarot;
 
 import java.util.List;
 
