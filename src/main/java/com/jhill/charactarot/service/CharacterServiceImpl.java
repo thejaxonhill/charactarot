@@ -19,7 +19,7 @@ public class CharacterServiceImpl implements CharacterService {
 
         @Override
         public String buildCharacter(List<String> cardShortNames) {
-                OpenAiService service = new OpenAiService("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");
+                OpenAiService service = new OpenAiService("");
 
                 StringBuilder message = new StringBuilder(
                                 "Please build a basic Dungeons and Dragons character, with stats included, based off of the following Tarot Cards: ");
