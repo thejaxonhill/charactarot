@@ -1,8 +1,10 @@
 package com.jhill.charactarot.mtg.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class ForeignNameModel implements MutableForeignName {
 
     private String flavor;
