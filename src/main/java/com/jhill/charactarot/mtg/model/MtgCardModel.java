@@ -2,9 +2,11 @@ package com.jhill.charactarot.mtg.model;
 
 import java.util.List;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class MtgCardModel implements MutableMtgCard {
 
     private String artist;
