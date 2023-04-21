@@ -78,7 +78,7 @@ export default function Home({ cards }: HomeProps) {
               </Box>
             }
             <Box sx={{ display: 'flex', my: 3, width: "100%" }}>
-              <Button onClick={handleBuildCharacter} variant='contained' sx={{ m: 'auto' }}>Build Character</Button>
+              <Button onClick={handleBuildCharacter} disabled={loading}  variant='contained' sx={{ m: 'auto' }}>Build Character</Button>
             </Box>
           </Container>
         </ThemeProvider>
