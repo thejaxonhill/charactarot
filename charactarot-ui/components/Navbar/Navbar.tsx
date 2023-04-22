@@ -49,6 +49,7 @@ export const Navbar = ({ darkMode, handleThemeChange }: Props) => {
                         }}>
                             <FormGroup>
                                 <FormControlLabel
+                                    sx={{ display: 'flex', alignContent: 'center', height: '100%' }}
                                     control={<Switch
                                         defaultChecked
                                         checked={darkMode}
