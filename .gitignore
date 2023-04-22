@@ -76,3 +76,4 @@ src/main/resources/application-internal.yaml
 src/main/resources/application-internal.yml
 
 **.env*local
+charactarot-ui/env.development.local
