@@ -10,4 +10,6 @@ public interface TarotCardService {
 
     List<TarotCard> drawRandomCards();
 
+    List<TarotCard> drawRandomCards(int size);
+
 }

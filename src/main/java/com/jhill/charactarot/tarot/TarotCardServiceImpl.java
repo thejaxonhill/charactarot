@@ -16,7 +16,24 @@ public class TarotCardServiceImpl implements TarotCardService {
 
     @Override
     public List<TarotCard> drawRandomCards() {
-        return getRandomCards();
+        return drawRandomCards(3);
+    }
+
+    @Override
+    public List<TarotCard> drawRandomCards(int size) {
+        return getRandomCards(size);
+    }
+
+    private List<TarotCard> getRandomCards(int size) {
+        Random rand = new Random();
+        List<TarotCard> randomCards = new ArrayList<>();
+        while (randomCards.size() < size) {
+            TarotCard randomCard = tarotCards.get(rand.nextInt(78));
+            if (!randomCards.contains(randomCard))
+                randomCards.add(randomCard);
+        }
+
+        return randomCards;
     }
 
     @Override
@@ -31,15 +48,4 @@ public class TarotCardServiceImpl implements TarotCardService {
                 .toList().get(0);
     }
 
-    private List<TarotCard> getRandomCards() {
-        Random rand = new Random();
-        List<TarotCard> randomCards = new ArrayList<>();
-        while (randomCards.size() < 3) {
-            TarotCard randomCard = tarotCards.get(rand.nextInt(78));
-            if (!randomCards.contains(randomCard))
-                randomCards.add(randomCard);
-        }
-
-        return randomCards;
-    }
 }

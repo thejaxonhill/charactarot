@@ -74,3 +74,5 @@ jspm_packages
 src/main/resources/application-internal.yaml
 
 src/main/resources/application-internal.yml
+
+**.env*local

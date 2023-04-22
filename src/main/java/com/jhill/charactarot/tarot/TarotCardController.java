@@ -24,16 +24,25 @@ public class TarotCardController {
 
     @GetMapping(value = "/search/shortName")
     public ResponseEntity<TarotCard> getCard(@RequestParam(value = "shortName") String shortName) {
+
         return ResponseEntity.ok(tarotCardService.getCardByShortName(shortName));
+
     }
 
     @GetMapping(value = "/random")
-    public ResponseEntity<TarotCardsResponse> getRandomCards() {
-        return ResponseEntity.ok(mapResponse(tarotCardService.drawRandomCards()));
+    public ResponseEntity<TarotCardsResponse> getRandomCards(
+            @RequestParam(value = "size", required = false) Integer size) {
+
+        return ResponseEntity.ok(mapResponse(size != null
+                ? tarotCardService.drawRandomCards(size)
+                : tarotCardService.drawRandomCards()));
+
     }
 
     private TarotCardsResponse mapResponse(List<TarotCard> cards) {
+
         return new TarotCardsResponse(cards.size(), cards);
+
     }
 
     private record TarotCardsResponse(int numHits, List<TarotCard> cards) {
