@@ -1,5 +1,8 @@
 package com.jhill.charactarot.mtg.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = ForeignNameModel.class)
 public interface ForeignName {
 
     String getFlavor();

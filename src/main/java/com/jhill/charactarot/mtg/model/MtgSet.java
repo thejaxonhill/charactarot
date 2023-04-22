@@ -3,6 +3,9 @@ package com.jhill.charactarot.mtg.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = MtgSetModel.class)
 public interface MtgSet {
 
     String getBlock();

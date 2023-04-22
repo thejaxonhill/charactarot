@@ -2,6 +2,9 @@ package com.jhill.charactarot.mtg.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = MtgCardModel.class)
 public interface MtgCard {
 
     String getArtist();

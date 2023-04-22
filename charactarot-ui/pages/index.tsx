@@ -10,18 +10,6 @@ interface HomeProps {
   cards: any[]
 }
 
-const theme = createTheme({
-  palette: {
-    background: {
-      default: deepOrange[100]
-    },
-    primary: {
-      main: deepOrange[900]
-    }
-  }
-
-});
-
 export default function Home({ cards }: HomeProps) {
   const [character, setCharacter] = useState();
   const [loading, setLoading] = useState(false);
@@ -42,47 +30,37 @@ export default function Home({ cards }: HomeProps) {
       <Head>
         <title>Charactarot</title>
       </Head>
-      <main >
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <AppBar position='static'>
-            <Toolbar></Toolbar>
-          </AppBar>
-          <Container >
-            <Grid container spacing={3} sx={{ mt: 1 }}>
-              {cards.map(c => {
-                return (
-                  <Grid xs={12} sm={4} key={c.shortName} >
-                    <Tooltip title={<Typography>{c.desc}</Typography>}>
-                      <Box>
-                        <Paper sx={{ width: 199, height: 340, mx: 'auto' }}>
-                          <Image src={c.imageLink} alt="favicon.ico" width={199} height={340} style={{ borderRadius: 15 }} />
-                        </Paper>
-                        <Typography variant="h5" sx={{ textAlign: 'center' }}>{c.name}</Typography>
-                      </Box>
-                    </Tooltip>
-                  </Grid>
-                )
-              })}
-              {character &&
-                <Grid sm={8} smOffset={2}>
-                  <Paper sx={{ p: 1, mt: 1, background: amber[100] }}>
-                    <Typography >{character}</Typography>
+      <Grid container spacing={3} sx={{ mt: 1 }}>
+        {cards.map(c => {
+          return (
+            <Grid xs={12} sm={4} key={c.shortName} >
+              <Tooltip title={<Typography>{c.desc}</Typography>}>
+                <Box>
+                  <Paper sx={{ width: 199, height: 340, mx: 'auto', borderRadius: 3, overflow: 'hidden' }}>
+                    <Image src={c.imageLink} alt="favicon.ico" width={199} height={340} />
                   </Paper>
-                </Grid>
-              }
+                  <Typography variant="h5" sx={{ textAlign: 'center' }}>{c.name}</Typography>
+                </Box>
+              </Tooltip>
             </Grid>
-            {loading &&
-              <Box sx={{ display: 'flex', my: 1, width: "100%" }}>
-                <CircularProgress size={35} sx={{ m: 'auto' }} />
-              </Box>
-            }
-            <Box sx={{ display: 'flex', my: 3, width: "100%" }}>
-              <Button onClick={handleBuildCharacter} disabled={loading}  variant='contained' sx={{ m: 'auto' }}>Build Character</Button>
-            </Box>
-          </Container>
-        </ThemeProvider>
-      </main>
+          )
+        })}
+        {character &&
+          <Grid sm={8} smOffset={2}>
+            <Paper sx={{ p: 1, mt: 1, background: amber[100] }}>
+              <Typography >{character}</Typography>
+            </Paper>
+          </Grid>
+        }
+      </Grid>
+      {loading &&
+        <Box sx={{ display: 'flex', my: 1, width: "100%" }}>
+          <CircularProgress size={35} sx={{ m: 'auto' }} />
+        </Box>
+      }
+      <Box sx={{ display: 'flex', my: 3, width: "100%" }}>
+        <Button onClick={handleBuildCharacter} disabled={loading} variant='contained' sx={{ m: 'auto' }}>Build Character</Button>
+      </Box>
     </>
   )
 }
