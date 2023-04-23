@@ -28,11 +28,23 @@ export default function Home({ cards }: HomeProps) {
   }
 
   const handleCardClick = async (index: number) => {
-    const res = await client.get('/cards/random', { params: { size: 1 } });
-    const card = res.data.cards[0];
-    const currentCards = [...cardValues];
-    currentCards[index] = card;
-    setCardValues(currentCards);
+    if (!loading) {
+      const res = await client.get('/cards/random', { params: { size: 1 } });
+      const newCard = res.data.cards[0];
+      let reset = false;
+      cardValues.forEach(async (card) => {
+        if (card.shortName === newCard.shortName){
+          reset = true;
+        }
+      });
+      if (reset)
+        await handleCardClick(index);
+      else{
+        const currentCards = [...cardValues];
+        currentCards[index] = newCard;
+        setCardValues(currentCards);
+      }
+    }
   }
 
   return (
@@ -43,7 +55,7 @@ export default function Home({ cards }: HomeProps) {
       <Grid container spacing={3} sx={{ mt: 1 }}>
         {cardValues && cardValues.map((c, index) => {
           return (
-            <Grid xs={12} sm={4} key={c.shortName} >
+            <Grid xs={12} sm={4} key={c.shortName}>
               <Tooltip title={<Typography>{c.desc}</Typography>}>
                 <Box>
                   <Paper onClick={() => handleCardClick(index)} sx={{ width: 199, height: 340, mx: 'auto', borderRadius: 3, overflow: 'hidden' }}>
