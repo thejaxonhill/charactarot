@@ -1,60 +1,42 @@
 package com.jhill.charactarot.mtg;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhill.charactarot.mtg.model.MtgCard;
+import com.jhill.charactarot.mtg.MtgCardService.MtgCardsRequest;
+import com.jhill.charactarot.mtg.MtgCardService.MtgCardsResponse;
 
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
-import okhttp3.Call;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
-@Builder
-@RequiredArgsConstructor
-public class MtgCardServiceImpl implements MtgCardService {
+public class MtgCardServiceImpl extends AbstractMtgService<MtgCardsRequest, MtgCardsResponse>
+        implements MtgCardService {
 
-    private final ObjectMapper om;
-
-    private final OkHttpClient client;
+    @Builder
+    public MtgCardServiceImpl(OkHttpClient client, ObjectMapper om) {
+        super(client, om, MtgCardsResponse.class);
+    }
 
     public List<MtgCard> getAllCards() {
         return getAllCards(0, 100);
     }
 
     public List<MtgCard> getAllCards(int page, int pageSize) {
-        return deserialize(send("cards"), MtgCardsResponse.class).cards();
+        return getAllCards(r -> r.page(page).pageSize(pageSize));
     }
 
-    private record MtgCardsResponse(List<MtgCard> cards) {
+    public List<MtgCard> getAllCards(Consumer<MtgCardsRequest.MtgCardsRequestBuilder> consumer) {
+        MtgCardsRequest.MtgCardsRequestBuilder builder = MtgCardsRequest.builder();
+        consumer.accept(builder);
+        return getAllCards(builder.build());
     }
 
-    private <T> T deserialize(String body, Class<T> klass) {
-        try {
-            return om.readValue(body, klass);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unable to deserialize body.");
-        }
-    }
-
-    private String send(String path) {
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme("https")
-                .host("api.magicthegathering.io")
-                .addPathSegments(String.format("v1/%s", path))
-                .build();
-        Request req = new Request.Builder().url(url).build();
-        Call call = client.newCall(req);
-        try {
-            return call.execute().body().string();
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to complete call to server.");
-        }
+    public List<MtgCard> getAllCards(MtgCardsRequest cardRequest) {
+        HttpUrl url = buildUrl(cardRequest, "cards");
+        return send(url).cards();
     }
 
 }
