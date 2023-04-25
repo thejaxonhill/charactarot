@@ -10,16 +10,10 @@ import lombok.Builder;
 
 public interface MtgCardService extends MtgService<MtgCardService.MtgCardsResponse> {
 
-    List<MtgCard> getAllCards();
-
-    List<MtgCard> getAllCards(int page, int pageSize);
-
-    List<MtgCard> getAllCards(Consumer<MtgCardsRequest.MtgCardsRequestBuilder> consumer);
-
-    List<MtgCard> getAllCards(MtgCardsRequest cardRequest);
+    MtgCardsResponse getAll(Consumer<MtgCardsRequest.MtgCardsRequestBuilder> consumer);
 
     @Builder
-    record MtgCardsRequest(
+    record MtgCardsRequest (
             String artist,
             String cmc,
             String colors,
@@ -52,7 +46,11 @@ public interface MtgCardService extends MtgService<MtgCardService.MtgCardsRespon
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    record MtgCardsResponse(List<MtgCard> cards, String status) {
+    record MtgCardResponse(MtgCard card) {
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    record MtgCardsResponse(List<MtgCard> cards, MtgCard card, String status) {
     }
 
 }

@@ -23,22 +23,18 @@ abstract public class AbstractMtgService<REQ, RES> implements MtgService<RES> {
 
     private final Class<RES> clazz;
 
-    public RES send(HttpUrl url) {
-        Request req = new Request.Builder().url(url).build();
-        Call call = client.newCall(req);
-        try {
-            return deserialize(call.execute().body().string());
-        } catch (IOException e) {
-            log.error("{}", e.getMessage());
-            throw new RuntimeException("Unable to complete call to server.");
-        }
+    private final String basePath;
+
+    public RES getAll(REQ request) {
+        HttpUrl url = buildUrl(request);
+        return send(url);
     }
 
-    protected HttpUrl buildUrl(REQ request, String path) {
+    private HttpUrl buildUrl(Object request) {
         HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
                 .scheme("https")
                 .host("api.magicthegathering.io")
-                .addPathSegments(String.format("v1/%s", path));
+                .addPathSegments(String.format("v1/%s", basePath));
 
         for (Field field : request.getClass().getDeclaredFields()) {
             try {
@@ -53,6 +49,17 @@ abstract public class AbstractMtgService<REQ, RES> implements MtgService<RES> {
         }
 
         return urlBuilder.build();
+    }
+
+    private RES send(HttpUrl url) {
+        Request req = new Request.Builder().url(url).build();
+        Call call = client.newCall(req);
+        try {
+            return deserialize(call.execute().body().string());
+        } catch (IOException e) {
+            log.error("{}", e.getMessage());
+            throw new RuntimeException("Unable to complete call to server.");
+        }
     }
 
     private RES deserialize(String body) {

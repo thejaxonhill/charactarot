@@ -1,9 +1,9 @@
 package com.jhill.charactarot.mtg;
 
-import okhttp3.HttpUrl;
+import com.jhill.charactarot.mtg.MtgCardService.MtgCardsRequest;
 
 public interface MtgService<T> {
 
-    T send(HttpUrl url);
+    T getAll(MtgCardsRequest cardRequest);
 
 }
