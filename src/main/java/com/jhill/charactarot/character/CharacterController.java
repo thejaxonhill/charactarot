@@ -24,4 +24,11 @@ public class CharacterController {
         return ResponseEntity.ok(service.buildCharacter(cards));
     }
 
+    @GetMapping(value = "/mtg")
+    @CrossOrigin
+    public ResponseEntity<Object> buildMtgCharacter(@RequestParam(value = "card") String card) {
+        //TODO
+        return ResponseEntity.ok().build();
+    }
+
 }
