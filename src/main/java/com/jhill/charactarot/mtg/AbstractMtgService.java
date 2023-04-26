@@ -2,9 +2,8 @@ package com.jhill.charactarot.mtg;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import java.util.function.Consumer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,27 +14,42 @@ import okhttp3.Request;
 
 @Slf4j
 @RequiredArgsConstructor
-abstract public class AbstractMtgService<REQ, RES> implements MtgService<RES> {
+abstract public class AbstractMtgService<T, REQ> implements MtgService<T, REQ> {
+
+    private static final String HOST = "api.magicthegathering.io";
+
+    private static final String VERSION = "v1";
 
     private final OkHttpClient client;
 
-    private final ObjectMapper om;
-
-    private final Class<RES> clazz;
-
     private final String basePath;
 
-    public RES getAll(REQ request) {
-        HttpUrl url = buildUrl(request);
-        return send(url);
+    protected abstract T deserialize(String body);
+
+    protected abstract List<T> deserializeAll(String body);
+
+    public T get(String id) {
+        HttpUrl url = buildUrl(b -> b.addPathSegments(String.format("%s/%s/%s", VERSION, basePath, id)));
+        return deserialize(send(url));
     }
 
-    private HttpUrl buildUrl(Object request) {
-        HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
-                .scheme("https")
-                .host("api.magicthegathering.io")
-                .addPathSegments(String.format("v1/%s", basePath));
+    public List<T> getAll(REQ request) {
+        HttpUrl url = buildUrl(b -> {
+            b.addPathSegments(String.format("%s/%s", VERSION, basePath));
+            setQueryParams(b, request);
+        });
+        return deserializeAll(send(url));
+    }
 
+    private HttpUrl buildUrl(Consumer<HttpUrl.Builder> consumer) {
+        HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
+            .scheme("https")
+            .host(HOST);
+        consumer.accept(urlBuilder);
+        return urlBuilder.build();
+    }
+
+    private void setQueryParams(HttpUrl.Builder urlBuilder, REQ request) {
         for (Field field : request.getClass().getDeclaredFields()) {
             try {
                 field.setAccessible(true);
@@ -43,31 +57,21 @@ abstract public class AbstractMtgService<REQ, RES> implements MtgService<RES> {
                     urlBuilder.addQueryParameter(field.getName(), field.get(request).toString());
                 }
             } catch (IllegalArgumentException | IllegalAccessException e) {
-                e.printStackTrace();
+                log.error("{}", e.getMessage());
                 throw new RuntimeException("Unable to build request url.");
             }
         }
-
-        return urlBuilder.build();
     }
 
-    private RES send(HttpUrl url) {
+    private String send(HttpUrl url) {
         Request req = new Request.Builder().url(url).build();
         Call call = client.newCall(req);
         try {
-            return deserialize(call.execute().body().string());
+            return call.execute().body().string();
         } catch (IOException e) {
             log.error("{}", e.getMessage());
             throw new RuntimeException("Unable to complete call to server.");
         }
     }
 
-    private RES deserialize(String body) {
-        try {
-            return om.readValue(body, clazz);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unable to deserialize body.");
-        }
-    }
 }

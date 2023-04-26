@@ -1,9 +1,11 @@
 package com.jhill.charactarot.mtg;
 
-import com.jhill.charactarot.mtg.MtgCardService.MtgCardsRequest;
+import java.util.List;
 
-public interface MtgService<T> {
+public interface MtgService<T, REQ> {
 
-    T getAll(MtgCardsRequest cardRequest);
+    T get(String id);
+
+    List<T> getAll(REQ request);
 
 }

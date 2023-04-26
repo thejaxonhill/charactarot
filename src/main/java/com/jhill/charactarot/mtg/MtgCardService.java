@@ -8,12 +8,12 @@ import com.jhill.charactarot.mtg.model.MtgCard;
 
 import lombok.Builder;
 
-public interface MtgCardService extends MtgService<MtgCardService.MtgCardsResponse> {
+public interface MtgCardService extends MtgService<MtgCard, MtgCardService.MtgCardRequest> {
 
-    MtgCardsResponse getAll(Consumer<MtgCardsRequest.MtgCardsRequestBuilder> consumer);
+    List<MtgCard> getAll(Consumer<MtgCardRequest.MtgCardRequestBuilder> consumer);
 
     @Builder
-    record MtgCardsRequest (
+    record MtgCardRequest (
             String artist,
             String cmc,
             String colors,
@@ -46,11 +46,11 @@ public interface MtgCardService extends MtgService<MtgCardService.MtgCardsRespon
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    record MtgCardResponse(MtgCard card) {
+    record MtgCardResponse(MtgCard card, String status) {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    record MtgCardsResponse(List<MtgCard> cards, MtgCard card, String status) {
+    record MtgCardsResponse(List<MtgCard> cards, String status) {
     }
 
 }
