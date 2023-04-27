@@ -3,24 +3,18 @@ package com.jhill.charactarot.mtg;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhill.charactarot.mtg.MtgSetService.MtgSetRequest;
 import com.jhill.charactarot.mtg.model.MtgSet;
 
 import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 
-@Slf4j
 public class MtgSetServiceImpl extends AbstractMtgService<MtgSet, MtgSetRequest> implements MtgSetService {
-
-    private final ObjectMapper om;
 
     @Builder
     public MtgSetServiceImpl(OkHttpClient client, ObjectMapper om) {
-        super(client, "sets");
-        this.om = om;
+        super("sets", client, om);
     }
 
     @Override
@@ -40,12 +34,4 @@ public class MtgSetServiceImpl extends AbstractMtgService<MtgSet, MtgSetRequest>
         return deserialize(body, MtgSetsResponse.class).sets();
     }
 
-    private <T> T deserialize(String body, Class<T> clazz) {
-        try {
-            return om.readValue(body, clazz);
-        } catch (JsonProcessingException e) {
-            log.error("{}", e.getMessage());
-            throw new RuntimeException("Unable to deserialize response.");
-        }
-    }
 }

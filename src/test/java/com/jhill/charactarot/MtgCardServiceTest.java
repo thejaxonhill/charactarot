@@ -1,10 +1,10 @@
 package com.jhill.charactarot;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -33,9 +33,15 @@ public class MtgCardServiceTest {
     }
 
     @Test
-    void testGet() {
-        MtgCard res = service.get("386616");
-        assertNotNull(res);
+    void givenId_whenCardExists_thenNotNull() {
+        Optional<MtgCard> res = service.get("3816");
+        assertNotNull(res.get());
+    }
+
+    @Test
+    void givenId_whenCardNotExists_thenNull() {
+        Optional<MtgCard> res = service.get("3816131242");
+        assertFalse(res.isPresent());
     }
 
 }
