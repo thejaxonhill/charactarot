@@ -65,9 +65,9 @@ abstract public class AbstractMtgService<T, REQ> implements MtgService<T, REQ> {
         for (Field field : request.getClass().getDeclaredFields()) {
             try {
                 field.setAccessible(true);
-                if (field != null && field.get(request) != null) {
-                    urlBuilder.addQueryParameter(field.getName(), field.get(request).toString());
-                }
+                Object obj = field.get(request);
+                if (obj != null)
+                    urlBuilder.addQueryParameter(field.getName(), obj.toString());
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 log.error("{}", e.getMessage());
                 throw new RuntimeException("Unable to build request url.");

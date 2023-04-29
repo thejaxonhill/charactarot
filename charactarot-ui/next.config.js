@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   images: { domains: ['localhost', 'gatherer.wizards.com'] },
+  httpAgentOptions: {
+    rejectUnauthorized: false
+  },
   async rewrites() {
     return [
       {

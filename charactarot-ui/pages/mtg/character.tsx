@@ -17,7 +17,7 @@ export default function MtgCharacter({ card }: MtgCharacterProps) {
 
   const handleBuildCharacter = async () => {
     setLoading(true);
-    const res = await client.get('/character/mtg', { params: {card: card.name} })
+    const res = await client.get('/character/mtg', { params: { card: card.name } })
     setCharacter(res.data);
     setLoading(false);
   }
@@ -26,9 +26,9 @@ export default function MtgCharacter({ card }: MtgCharacterProps) {
     if (!loading) {
       const res = await client.get('/mtg/card/random');
       const newCard = res.data;
-      if (card.shortName === newCard.shortName)
+      if (card.name === newCard.name)
         await handleCardClick();
-      else{
+      else {
         setCardValue(newCard);
       }
     }
@@ -40,17 +40,17 @@ export default function MtgCharacter({ card }: MtgCharacterProps) {
         <title>Charactarot</title>
       </Head>
       <Grid container spacing={3} sx={{ mt: 1 }}>
-        {cardValue &&
-            <Grid xs={12} sm={4} >
-              <Tooltip title={<Typography>{cardValue.desc}</Typography>}>
-                <Box>
-                  <Paper onClick={() => handleCardClick()} sx={{ width: 223, height: 311, mx: 'auto', borderRadius: 3, overflow: 'hidden' }}>
-                    <Image src={cardValue.imageUrl} alt="favicon.ico" width={223} height={311} />
-                  </Paper>
-                  <Typography variant="h5" sx={{ textAlign: 'center' }}>{cardValue.name}</Typography>
-                </Box>
-              </Tooltip>
-            </Grid>
+        {cardValue.imageUrl &&
+          <Grid xs={12} sm={12} >
+            <Tooltip title={<Typography>{cardValue.text}</Typography>}>
+              <Box>
+                <Paper onClick={() => handleCardClick()} sx={{ width: 223, height: 311, mx: 'auto', borderRadius: 3, overflow: 'hidden' }}>
+                  <Image src={cardValue.imageUrl} alt="favicon.ico" width={223} height={311} />
+                </Paper>
+                <Typography variant="h5" sx={{ textAlign: 'center' }}>{cardValue.name}</Typography>
+              </Box>
+            </Tooltip>
+          </Grid>
         }
         {character &&
           <Grid sm={8} smOffset={2}>
@@ -73,6 +73,12 @@ export default function MtgCharacter({ card }: MtgCharacterProps) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const res = await client.get('/mtg/card/random');
-  return { props: { card: res.data } }
+  try {
+    const res = await client.get('/mtg/card/random');
+    console.log(res.data);
+    return { props: { card: res.data } }
+  } catch (error) {
+    console.log(error);
+    return { props: {} }
+  }
 }
