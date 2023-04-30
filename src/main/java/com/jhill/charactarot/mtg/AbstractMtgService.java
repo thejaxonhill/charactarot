@@ -55,13 +55,13 @@ abstract public class AbstractMtgService<T, REQ> implements MtgService<T, REQ> {
         return objs != null ? objs : new ArrayList<>();
     }
 
-    private HttpUrl buildUrl(Consumer<HttpUrl.Builder> consumer) {
+    protected HttpUrl buildUrl(Consumer<HttpUrl.Builder> consumer) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(HOST + basePath).newBuilder();
         consumer.accept(urlBuilder);
         return urlBuilder.build();
     }
 
-    private void setQueryParams(HttpUrl.Builder urlBuilder, REQ request) {
+    protected void setQueryParams(HttpUrl.Builder urlBuilder, REQ request) {
         for (Field field : request.getClass().getDeclaredFields()) {
             try {
                 field.setAccessible(true);
@@ -75,7 +75,7 @@ abstract public class AbstractMtgService<T, REQ> implements MtgService<T, REQ> {
         }
     }
 
-    private String send(HttpUrl url) {
+    protected String send(HttpUrl url) {
         Request req = new Request.Builder().url(url).build();
         Call call = client.newCall(req);
         try {

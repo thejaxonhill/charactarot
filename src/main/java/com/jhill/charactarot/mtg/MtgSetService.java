@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jhill.charactarot.mtg.model.MtgCard;
 import com.jhill.charactarot.mtg.model.MtgSet;
 
 import lombok.Builder;
@@ -11,6 +12,8 @@ import lombok.Builder;
 public interface MtgSetService extends MtgService<MtgSet, MtgSetService.MtgSetRequest> {
 
     List<MtgSet> getAll(Consumer<MtgSetRequest.MtgSetRequestBuilder> consumer);
+
+    List<MtgCard> generateBooster(String code);
 
     @Builder
     record MtgSetRequest(

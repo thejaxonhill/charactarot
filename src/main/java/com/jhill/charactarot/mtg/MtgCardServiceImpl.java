@@ -8,6 +8,7 @@ import com.jhill.charactarot.mtg.MtgCardService.MtgCardRequest;
 import com.jhill.charactarot.mtg.model.MtgCard;
 
 import lombok.Builder;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 public class MtgCardServiceImpl extends AbstractMtgService<MtgCard, MtgCardRequest> implements MtgCardService {
