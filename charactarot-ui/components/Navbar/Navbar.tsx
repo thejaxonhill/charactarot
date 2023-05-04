@@ -25,6 +25,11 @@ export const Navbar = ({ darkMode, handleThemeChange }: Props) => {
         setAnchorEl(null);
     };
 
+    const handleNavigate = (url: string) => {
+        const router = useRouter();
+        router.push(url);
+    }
+
     return (
         <AppBar position='sticky'>
             <Toolbar>
@@ -38,7 +43,21 @@ export const Navbar = ({ darkMode, handleThemeChange }: Props) => {
                                 sx={{ mr: 2 }}>
                                 <CastleIcon fontSize="large" />
                             </IconButton>
-                            <Typography variant='h6' >Charactarot</Typography>
+                            <Typography variant='h6' >
+                                Charactarot
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    <Grid sm={6}>
+                        <Box sx={{display: 'flex', alignItems: 'center' }}>
+                            <Button
+                                onClick={() => router.push('/tarot')}
+                                sx={{mr: 2 }}>
+                                    <Typography variant='h6'
+                                        sx={{ color: 'white '}}>
+                                        Tarot
+                                    </Typography>
+                                </Button>
                         </Box>
                     </Grid>
                     <Grid sm={6}>
