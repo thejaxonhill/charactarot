@@ -25,10 +25,25 @@ export const Navbar = ({ darkMode, handleThemeChange }: Props) => {
         setAnchorEl(null);
     };
 
+    const getLogoText = (path: string) => {
+        let logoText = "";
+        switch (path) {
+            case "/":
+                logoText = "Jackenate";
+                break;
+            case "/tarot":
+                logoText = "Charactarot";
+                break;
+            default:
+                logoText = "Jackenate";
+        }
+        return logoText;
+    };
+
     const handleNavigate = (url: string) => {
-        const router = useRouter();
         router.push(url);
     }
+
 
     return (
         <AppBar position='sticky'>
@@ -43,18 +58,19 @@ export const Navbar = ({ darkMode, handleThemeChange }: Props) => {
                         sx={{ mr: 2 }}>
                         <CastleIcon fontSize="large" />
                     </IconButton>
-                    <Typography variant='h6' >
-                        Charactarot
+                    <Typography variant='h6' 
+                        sx={{ color: 'white' }}>
+                        {getLogoText(router.pathname)}
                     </Typography>
                 </Box>
             </Grid>
             <Grid sm={2}>
                 <Box sx={{display: 'flex', alignItems: 'left' }}>
                     <Button
-                        onClick={() => router.push('/tarot')}
+                        onClick={() => handleNavigate('/tarot')}
                         sx={{mr: 2 }}>
                             <Typography variant='h6'
-                                sx={{ color: 'white '}}>
+                                sx={{ color: 'white ' }}>
                                 Tarot
                             </Typography>
                     </Button>
