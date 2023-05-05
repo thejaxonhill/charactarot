@@ -33,83 +33,83 @@ export const Navbar = ({ darkMode, handleThemeChange }: Props) => {
     return (
         <AppBar position='sticky'>
             <Toolbar>
-                <Grid container sx={{ width: '100%', alignItems: 'center' }}>
-                    <Grid sm={6}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <IconButton
-                                size='large'
-                                edge='start'
-                                onClick={() => router.push('/')}
-                                sx={{ mr: 2 }}>
-                                <CastleIcon fontSize="large" />
-                            </IconButton>
-                            <Typography variant='h6' >
-                                Charactarot
+            <Grid container sx={{ width: '100%', alignItems: 'left' }} >
+            <Grid  sm={6}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <IconButton
+                        size='large'
+                        edge='start'
+                        onClick={() => router.push('/')}
+                        sx={{ mr: 2 }}>
+                        <CastleIcon fontSize="large" />
+                    </IconButton>
+                    <Typography variant='h6' >
+                        Charactarot
+                    </Typography>
+                </Box>
+            </Grid>
+            <Grid sm={2}>
+                <Box sx={{display: 'flex', alignItems: 'left' }}>
+                    <Button
+                        onClick={() => router.push('/tarot')}
+                        sx={{mr: 2 }}>
+                            <Typography variant='h6'
+                                sx={{ color: 'white '}}>
+                                Tarot
                             </Typography>
-                        </Box>
-                    </Grid>
-                    <Grid sm={6}>
-                        <Box sx={{display: 'flex', alignItems: 'center' }}>
-                            <Button
-                                onClick={() => router.push('/tarot')}
-                                sx={{mr: 2 }}>
-                                    <Typography variant='h6'
-                                        sx={{ color: 'white '}}>
-                                        Tarot
-                                    </Typography>
-                                </Button>
-                        </Box>
-                    </Grid>
-                    <Grid sm={6}>
-                        <Box sx={{
-                            display: 'flex',
-                            flexGrow: 1,
-                            justifyContent: 'flex-end'
-                        }}>
-                            <FormGroup>
-                                <FormControlLabel
-                                    sx={{ display: 'flex', alignContent: 'center', height: '100%' }}
-                                    control={<Switch
-                                        defaultChecked
-                                        checked={darkMode}
-                                        onChange={handleThemeChange}
-                                    />}
-                                    label={darkMode
-                                        ? <DarkModeIcon sx={{ mt: .5 }} />
-                                        : <LightModeIcon sx={{ mt: .5 }} />}
-                                />
-                            </FormGroup>
-                            {session &&
-                                <IconButton onClick={handleClick}>
-                                    <Avatar src={session.user?.image} />
-                                </IconButton>
-                                ||
-                                <Button
-                                    onClick={() => signIn('auth0')}
-                                    variant='contained'
-                                    color='secondary'
-                                    sx={{ height: '100%' }}>
-                                    Login
-                                </Button>
-                            }
-                            <Menu
-                                open={open}
-                                anchorEl={anchorEl}
-                                onClose={handleClose}
-                                id='profile-menu'
-                            >
-                                <MenuItem>
+                    </Button>
+                </Box>
+            </Grid>
+            <Grid sm={6}>
+                <Box sx={{
+                    display: 'flex',
+                    flexGrow: 1,
+                    justifyContent: 'flex-end'
+                }}>
+                    <FormGroup>
+                        <FormControlLabel
+                            sx={{ display: 'flex', alignContent: 'center', height: '100%' }}
+                            control={<Switch
+                                defaultChecked
+                                checked={darkMode}
+                                onChange={handleThemeChange}
+                            />}
+                            label={darkMode
+                                ? <DarkModeIcon sx={{ mt: .5 }} />
+                                : <LightModeIcon sx={{ mt: .5 }} />}
+                        />
+                    </FormGroup>
+                    {session &&
+                        <IconButton onClick={handleClick}>
+                            <Avatar src={session.user?.image} />
+                        </IconButton>
+                        ||
+                        <Button
+                            onClick={() => signIn('auth0')}
+                            variant='contained'
+                            color='secondary'
+                            sx={{ height: '100%' }}>
+                            Login
+                        </Button>
+                    }
+                    <Menu
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        id='profile-menu'
+                    >
+                        <MenuItem>
 
-                                </MenuItem>
-                                <Divider />
-                                <MenuItem onClick={() => signOut()}>
-                                    Logout
-                                </MenuItem>
-                            </Menu>
-                        </Box>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={() => signOut()}>
+                            Logout
+                        </MenuItem>
+                    </Menu>
+                </Box>
+            </Grid>
+        </Grid>
 
-                    </Grid>
-                </Grid>
             </Toolbar>
         </AppBar>
     )
