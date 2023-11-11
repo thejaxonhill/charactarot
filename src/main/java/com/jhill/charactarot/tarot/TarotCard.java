@@ -1,45 +1,34 @@
 package com.jhill.charactarot.tarot;
 
-public interface TarotCard {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
-    String getType();
+@Getter
+@Builder
+@AllArgsConstructor
+public class TarotCard {
 
-    String getShortName();
+    private final Integer id;
 
-    String getName();
+    private final String type;
 
-    String getValue();
+    private final String shortName;
 
-    int getIntValue();
+    private final String name;
 
-    String getSuit();
+    private final String value;
 
-    String getUpMeaning();
+    private final int intValue;
 
-    String getRevMeaning();
+    private final String suit;
 
-    String getDesc();
+    private final String upMeaning;
 
-    String getImageLink();
+    private final String revMeaning;
 
-    void setType(String type);
+    private final String desc;
 
-    void setShortName(String shortName);
-
-    void setName(String name);
-
-    void setValue(String value);
-
-    void setIntValue(int value);
-
-    void setSuit(String suit);
-
-    void setUpMeaning(String upMeaning);
-
-    void setRevMeaning(String revMeaning);
-
-    void setDesc(String Desc);
-
-    void setImageLink(String imageLink);
+    private final String imageLink;
 
 }

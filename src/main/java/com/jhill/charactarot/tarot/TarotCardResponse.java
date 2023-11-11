@@ -2,10 +2,15 @@ package com.jhill.charactarot.tarot;
 
 import java.util.List;
 
-public interface TarotCardResponse {
+import lombok.Builder;
+import lombok.Getter;
 
-    int getNumHits();
+@Getter
+@Builder
+public class TarotCardResponse {
 
-    List<TarotCard> getCards();
+    private final int numHits;
+
+    private final List<TarotCard> cards;
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.theokanning.openai.completion.chat.ChatCompletionChunk;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.service.OpenAiService;

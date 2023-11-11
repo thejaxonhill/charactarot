@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CharactarotApplication {
+public class App {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CharactarotApplication.class, args);
+		SpringApplication.run(App.class, args);
 	}
 
 }
