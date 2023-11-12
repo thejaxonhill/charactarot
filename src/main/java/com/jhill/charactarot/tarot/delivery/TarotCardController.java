@@ -2,9 +2,6 @@ package com.jhill.charactarot.tarot.delivery;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,12 +24,9 @@ public class TarotCardController {
     private final ReadTarotCard readTarotCard;
 
     @GetMapping
-    public ResponseEntity<Page<TarotCard>> getAllCards(Pageable pageable) {
+    public ResponseEntity<List<TarotCard>> getAllCards() {
         List<TarotCard> cards = readTarotCard.readAllCards();
-        return ResponseEntity.ok(new PageImpl<>(cards.stream()
-                .skip(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .toList(), pageable, cards.size()));
+        return ResponseEntity.ok(cards);
     }
 
     @GetMapping(value = "/{id}")
@@ -41,8 +35,8 @@ public class TarotCardController {
         return ResponseEntity.ok(card);
     }
 
-    @GetMapping
-    public ResponseEntity<TarotCard> getCardByShortName(@RequestParam(value = "shortName") String shortName) {
+    @GetMapping(value = "/shortName/{shortName}")
+    public ResponseEntity<TarotCard> getCardByShortName(@PathVariable(value = "shortName") String shortName) {
         TarotCard card = readTarotCard.readCardByShortName(shortName);
         return ResponseEntity.ok(card);
     }

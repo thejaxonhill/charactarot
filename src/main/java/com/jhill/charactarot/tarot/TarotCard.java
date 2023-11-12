@@ -2,33 +2,35 @@ package com.jhill.charactarot.tarot;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class TarotCard {
 
-    private final Integer id;
+    private Integer id;
 
-    private final String type;
+    private String type;
 
-    private final String shortName;
+    private String shortName;
 
-    private final String name;
+    private String name;
 
-    private final String value;
+    private String value;
 
-    private final int intValue;
+    private int intValue;
 
-    private final String suit;
+    private String suit;
 
-    private final String upMeaning;
+    private String upMeaning;
 
-    private final String revMeaning;
+    private String revMeaning;
 
-    private final String desc;
+    private String desc;
 
-    private final String imageLink;
+    private String imageLink;
 
 }

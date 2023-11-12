@@ -11,7 +11,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @Configuration
 public class TarotCardConfig {
@@ -22,27 +21,16 @@ public class TarotCardConfig {
     @Bean
     List<TarotCard> tarotCards() throws IOException {
         File cardsDataJson = new ClassPathResource("cards_data.json").getFile();
-        SimpleModule sm = new SimpleModule().addAbstractTypeMapping(TarotCard.class, TarotCard.class);
-        ObjectMapper om = new ObjectMapper().registerModule(sm);
+        ObjectMapper om = new ObjectMapper();
         List<TarotCard> tarotCards = om.readValue(cardsDataJson, new TypeReference<>() {
         });
 
-        return tarotCards.stream().map(this::withImageLink).toList();
+        tarotCards.forEach(card -> card.setImageLink(formatImageLink(card.getName())));
+        return tarotCards;
     }
 
-    private TarotCard withImageLink(TarotCard card) {
-        return TarotCard.builder()
-                .desc(card.getDesc())
-                .imageLink(String.format("%s/api/v1/images/%d", host, card.getIntValue()))
-                .intValue(card.getIntValue())
-                .name(card.getName())
-                .revMeaning(card.getRevMeaning())
-                .shortName(card.getShortName())
-                .suit(card.getSuit())
-                .type(card.getType())
-                .upMeaning(card.getUpMeaning())
-                .value(card.getValue())
-                .build();
+    private String formatImageLink(String cardName) {
+        return String.format("%s/api/v1/images/%s.jpg", host, cardName.replace(" ", "").toLowerCase());
     }
 
 }

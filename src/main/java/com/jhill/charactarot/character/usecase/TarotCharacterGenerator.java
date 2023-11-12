@@ -29,9 +29,8 @@ public class TarotCharacterGenerator {
         public String buildCharacter(List<String> cardShortNames) {
                 return mapCardNames()
                                 .andThen(appendToStartMsg)
-                                .andThen(toChatMessage)
-                                .andThen(toChatMessages)
-                                .andThen(toChatCompletionRequest)
+                                .andThen(createChatMessages)
+                                .andThen(createChatCompletionRequest)
                                 .andThen(this::callChatGpt)
                                 .apply(cardShortNames);
         }
@@ -48,13 +47,11 @@ public class TarotCharacterGenerator {
 
         private final UnaryOperator<String> appendToStartMsg = cards -> START_MSG + cards;
 
-        private final Function<String, ChatMessage> toChatMessage = message -> new ChatMessage("user", message);
-
-        private final Function<ChatMessage, List<ChatMessage>> toChatMessages = message -> List.of(
+        private final Function<String, List<ChatMessage>> createChatMessages = message -> List.of(
                         new ChatMessage("system", "You are an expert at Dungeons and Dragons."),
-                        message);
+                        new ChatMessage("user", message));
 
-        private final Function<List<ChatMessage>, ChatCompletionRequest> toChatCompletionRequest = messages -> ChatCompletionRequest
+        private final Function<List<ChatMessage>, ChatCompletionRequest> createChatCompletionRequest = messages -> ChatCompletionRequest
                         .builder()
                         .messages(messages)
                         .model("gpt-3.5-turbo-0301")
