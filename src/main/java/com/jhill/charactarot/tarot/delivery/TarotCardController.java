@@ -43,10 +43,10 @@ public class TarotCardController {
 
     @GetMapping(value = "/random")
     public ResponseEntity<List<TarotCard>> getRandomCards(
-            @RequestParam(value = "size", required = false) Integer size) {
-        return ResponseEntity.ok(size != null
-                ? loadTarotCards.drawRandomCards(size)
-                : loadTarotCards.drawRandomCards());
+            @RequestParam(value = "size", defaultValue = "3", required = false) Integer size,
+            @RequestParam(value = "omit", required = false) List<Integer> omit) {
+        List<TarotCard> cards = loadTarotCards.drawRandomCards(size, omit);
+        return ResponseEntity.ok(cards);
     }
 
 }
